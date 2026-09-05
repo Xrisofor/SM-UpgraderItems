@@ -36,7 +36,7 @@
 			"scripted" : 
 			{
 				"classname" : "Upgrader",
-				"filename" : "$CONTENT_DATA/Scripts/Upgrader.lua"
+				"filename" : "$CONTENT_DATA/Scripts/game/Upgrader.lua"
 			},
 			"uuid" : "599f6d99-daf6-4116-ace9-0e24dbf71658"
 		}

@@ -184,7 +184,7 @@
 					[
 						{
 							"Childs" : [],
-							"ImageTexture" : "$CONTENT_42c2de83-82e9-411b-a8aa-1d4d46aa907d/Gui/Circle/circular_scale.png",
+							"ImageTexture" : "$CONTENT_42c2de83-82e9-411b-a8aa-1d4d46aa907d/Gui/Circle/circle_scale.png",
 							"LayoutRule" : "Center",
 							"Name" : "Scale",
 							"NeedKey" : false,
@@ -203,7 +203,7 @@
 									"Caption" : "0.00%",
 									"Childs" : [],
 									"FontName" : "SM_Button",
-									"Name" : "RiskPercentage",
+									"Name" : "PercentText",
 									"NeedKey" : false,
 									"NeedMouse" : false,
 									"Skin" : "TextBox",
@@ -221,21 +221,8 @@
 									"NeedMouse" : false,
 									"Skin" : "ImageBox",
 									"Type" : "ImageBox",
-									"height" : 100,
-									"width" : 100,
-									"x" : 0,
-									"y" : 0
-								},
-								{
-									"Childs" : [],
-									"ImageTexture" : "$CONTENT_42c2de83-82e9-411b-a8aa-1d4d46aa907d/Gui/Arrow/arrow_000.png",
-									"Name" : "Arrow",
-									"NeedKey" : false,
-									"NeedMouse" : false,
-									"Skin" : "ImageBox",
-									"Type" : "ImageBox",
-									"height" : 100,
-									"width" : 100,
+									"height" : 107,
+									"width" : 107,
 									"x" : 0,
 									"y" : 0
 								}
@@ -247,8 +234,21 @@
 							"NeedMouse" : false,
 							"Skin" : "ImageBox",
 							"Type" : "ImageBox",
-							"height" : 100,
-							"width" : 100,
+							"height" : 107,
+							"width" : 107,
+							"x" : 0,
+							"y" : 0
+						},
+						{
+							"Childs" : [],
+							"ImageTexture" : "$CONTENT_42c2de83-82e9-411b-a8aa-1d4d46aa907d/Gui/Arrow/arrow_000.png",
+							"Name" : "Arrow",
+							"NeedKey" : false,
+							"NeedMouse" : false,
+							"Skin" : "ImageBox",
+							"Type" : "ImageBox",
+							"height" : 130,
+							"width" : 130,
 							"x" : 0,
 							"y" : 0
 						}
