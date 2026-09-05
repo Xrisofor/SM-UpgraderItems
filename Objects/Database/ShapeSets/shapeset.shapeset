@@ -1,0 +1,44 @@
+{
+	"partList" : 
+	[
+		{
+			"carryItem" : false,
+			"box" : 
+			{
+				"x" : 4,
+				"y" : 3,
+				"z" : 3
+			},
+			"color" : "df7f01",
+			"flammable" : false,
+			"name" : "obj_upgrader_items",
+			"physicsMaterial" : "Mechanical",
+			"ratings" : 
+			{
+				"buoyancy" : 5,
+				"density" : 2,
+				"durability" : 4,
+				"friction" : 5
+			},
+			"renderable" : "$SURVIVAL_DATA/Character/Char_babycraftbot/char_babycraftbot.rend",
+			"restrictions" : 
+			{
+				"buildable" : false,
+				"connectable" : false,
+				"convertibleToDynamic" : true,
+				"destructable" : false,
+				"erasable" : true,
+				"liftable" : true,
+				"paintable" : true,
+				"usable" : true
+			},
+			"rotationSet" : "PropY",
+			"scripted" : 
+			{
+				"classname" : "Upgrader",
+				"filename" : "$CONTENT_DATA/Scripts/Upgrader.lua"
+			},
+			"uuid" : "599f6d99-daf6-4116-ace9-0e24dbf71658"
+		}
+	]
+}
