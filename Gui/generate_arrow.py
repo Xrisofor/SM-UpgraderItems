@@ -1,7 +1,7 @@
 import os
 from PIL import Image
 
-def generate_rotated_arrow(image_path, output_dir="arrow_frames", start_from_bottom=True):
+def generate_rotated_arrow(image_path, output_dir="arrow_frames", start_from_bottom=False):
     if not os.path.exists(image_path):
         print(f"File '{image_path}' not found.")
         return
@@ -31,4 +31,4 @@ def generate_rotated_arrow(image_path, output_dir="arrow_frames", start_from_bot
         rotated_img.save(output_path, "PNG")
 
 if __name__ == "__main__":
-    generate_rotated_arrow("arrow.png", start_from_bottom=True)
+    generate_rotated_arrow("arrow.png")

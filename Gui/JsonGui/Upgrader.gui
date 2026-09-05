@@ -55,7 +55,7 @@
 									"StateSelected" : true,
 									"Type" : "Button",
 									"height" : 50,
-									"onClick" : "cl_onClick",
+									"onClick" : "cl_onUpgradeClick",
 									"width" : 120,
 									"x" : 0,
 									"y" : 0
