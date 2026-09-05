@@ -88,6 +88,7 @@
 									"Skin" : "SettingsButton",
 									"Type" : "Button",
 									"height" : 50,
+									"onClick" : "cl_onTwoClick",
 									"width" : 50,
 									"x" : 0,
 									"y" : 0
@@ -120,6 +121,7 @@
 									"Skin" : "SettingsButton",
 									"Type" : "Button",
 									"height" : 50,
+									"onClick" : "cl_onFourClick",
 									"width" : 50,
 									"x" : 0,
 									"y" : 0
@@ -152,6 +154,7 @@
 									"Skin" : "SettingsButton",
 									"Type" : "Button",
 									"height" : 50,
+									"onClick" : "cl_onEightClick",
 									"width" : 50,
 									"x" : 0,
 									"y" : 0
@@ -212,30 +215,34 @@
 									"height" : 80,
 									"width" : 80,
 									"x" : 0,
-									"y" : 0
+									"y" : -8
 								},
 								{
+									"Caption" : "Chance",
 									"Childs" : [],
-									"Name" : "Percent",
+									"FontName" : "SM_ButtonTiny",
+									"Name" : "ResultText",
 									"NeedKey" : false,
 									"NeedMouse" : false,
-									"Skin" : "ImageBox",
-									"Type" : "ImageBox",
-									"height" : 107,
-									"width" : 107,
+									"Skin" : "TextBox",
+									"TextAlign" : "Center",
+									"TextColour" : "1.0 1.0 1.0 1.0",
+									"Type" : "TextBox",
+									"height" : 80,
+									"width" : 80,
 									"x" : 0,
-									"y" : 0
+									"y" : 8
 								}
 							],
 							"ImageTexture" : "$CONTENT_42c2de83-82e9-411b-a8aa-1d4d46aa907d/Gui/Circle/circle.png",
 							"LayoutRule" : "Center",
-							"Name" : "Background",
+							"Name" : "Percent",
 							"NeedKey" : false,
 							"NeedMouse" : false,
 							"Skin" : "ImageBox",
 							"Type" : "ImageBox",
-							"height" : 107,
-							"width" : 107,
+							"height" : 110,
+							"width" : 110,
 							"x" : 0,
 							"y" : 0
 						},

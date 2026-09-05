@@ -88,6 +88,18 @@ function Upgrader.cl_onUpgradeClick( self, _ )
     GuiManager.cl_onUpgradeClick( self, _ )
 end
 
+function Upgrader.cl_onTwoClick( self, _ )
+    GuiManager.cl_onTwoClick( self, _ )
+end
+
+function Upgrader.cl_onFourClick( self, _ )
+    GuiManager.cl_onFourClick( self, _ )
+end
+
+function Upgrader.cl_onEightClick( self, _ )
+    GuiManager.cl_onEightClick( self, _ )
+end
+
 function Upgrader.cl_onClose( self )
     GuiManager.cl_onClose( self )
 end
