@@ -138,7 +138,16 @@ end
 function SpinManager.cl_onUpdate( self, deltaTime )
     if self.cl.spinning then
         self.cl.spinTime = self.cl.spinTime + deltaTime
-        local frame = math.floor( self.cl.spinTime * SPIN_SPEED ) % 101
+        
+        local totalDuration = SPIN_TICKS / 40
+        local progress = math.min( self.cl.spinTime / totalDuration, 1.0 )
+        
+        local easedProgress = 1 - math.pow( 1 - progress, 3 )
+        
+        local totalFramesToStep = totalDuration * SPIN_SPEED
+        local currentFrame = easedProgress * totalFramesToStep
+        
+        local frame = math.floor( currentFrame ) % 101
         GuiManager.cl_updateArrowFrame( self, frame )
     end
 end
