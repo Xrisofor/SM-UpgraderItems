@@ -2,6 +2,7 @@ dofile( "$SURVIVAL_DATA/Scripts/game/survival_items.lua" )
 dofile( "$SURVIVAL_DATA/Scripts/util.lua" )
 
 dofile( "$CONTENT_DATA/Scripts/game/Utilities.lua" )
+dofile( "$CONTENT_DATA/Scripts/game/managers/ValueManager.lua" )
 dofile( "$CONTENT_DATA/Scripts/game/managers/AnimManager.lua" )
 dofile( "$CONTENT_DATA/Scripts/game/managers/GuiManager.lua" )
 dofile( "$CONTENT_DATA/Scripts/game/managers/SpinManager.lua" )
@@ -21,7 +22,6 @@ local function ensureContainers( self )
 end
 
 function Upgrader.server_onCreate( self )
-    reloadAllData()
     ensureContainers( self )
     SpinManager.sv_onCreate( self )
 end
@@ -32,7 +32,7 @@ function Upgrader.server_onRefresh( self )
 end
 
 function Upgrader.server_onReloadCommand( self, player )
-    reloadAllData()
+    ValueManager.clearCache()
     print( "(Upgrader) Data reloaded: " .. tostring( player and player:getId() ) )
 end
 
@@ -57,7 +57,6 @@ function Upgrader.client_onCreate( self )
         lastWantQuantity = 0,
     }
 
-    loadItemValues()
     AnimManager.cl_onCreate( self )
 end
 

@@ -91,9 +91,9 @@ function SpinManager.sv_onSpinRequest( self, params, player )
         end
     end
 
-    local giveValue = resolveValue( giveItem.uuid )
-    local wantValue = resolveValue( wantItem.uuid )
-    local chance = calcChance( giveValue * giveItem.quantity, wantValue * multiplier )
+    local giveValue = ValueManager.resolveValue( giveItem.uuid )
+    local wantValue = ValueManager.resolveValue( wantItem.uuid )
+    local chance = ValueManager.calcChance( giveValue * giveItem.quantity, wantValue * multiplier )
 
     local roll = math.random() * 100
     local success = roll <= chance

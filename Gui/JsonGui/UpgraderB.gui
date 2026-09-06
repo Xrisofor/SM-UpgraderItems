@@ -1,0 +1,410 @@
+{
+	"Anchor" : "Center",
+	"Childs" : 
+	[
+		{
+			"Childs" : 
+			[
+				{
+					"Caption" : "UPGRADER ITEMS",
+					"Childs" : [],
+					"FontName" : "SM_HeaderLarge_Wide",
+					"Name" : "Title",
+					"NeedKey" : false,
+					"NeedMouse" : false,
+					"Skin" : "TextBox",
+					"TextAlign" : "Center",
+					"Type" : "TextBox",
+					"height" : 30,
+					"width" : 400,
+					"x" : 0,
+					"y" : 15
+				},
+				{
+					"Childs" : 
+					[
+						{
+							"Childs" : 
+							[
+								{
+									"Childs" : 
+									[
+										{
+											"Caption" : "#{CONTROLLER_UPGRADE}",
+											"Childs" : [],
+											"FontName" : "SM_ButtonTiny",
+											"Name" : "UpgradeText",
+											"NeedKey" : false,
+											"NeedMouse" : false,
+											"Skin" : "TextBox",
+											"TextAlign" : "Center",
+											"Type" : "TextBox",
+											"height" : 50,
+											"width" : 120,
+											"x" : 0,
+											"y" : 0
+										}
+									],
+									"LayoutRule" : "Center",
+									"Name" : "UpgradeButton",
+									"NeedKey" : false,
+									"NeedMouse" : true,
+									"OnClickEffect" : "Gui - Click",
+									"OnFocusEffect" : "Gui - Highlight",
+									"Skin" : "SettingsButton",
+									"StateSelected" : true,
+									"Type" : "Button",
+									"height" : 50,
+									"onClick" : "cl_onUpgradeClick",
+									"width" : 120,
+									"x" : 0,
+									"y" : 0
+								},
+								{
+									"Childs" : 
+									[
+										{
+											"Caption" : "2x",
+											"Childs" : [],
+											"FontName" : "SM_ButtonTiny",
+											"Name" : "TwoText",
+											"NeedKey" : false,
+											"NeedMouse" : false,
+											"Skin" : "TextBox",
+											"TextAlign" : "Center",
+											"Type" : "TextBox",
+											"height" : 50,
+											"width" : 50,
+											"x" : 0,
+											"y" : 0
+										}
+									],
+									"LayoutRule" : "Center",
+									"Name" : "TwoButton",
+									"NeedKey" : false,
+									"NeedMouse" : true,
+									"OnClickEffect" : "Gui - Click",
+									"OnFocusEffect" : "Gui - Highlight",
+									"Skin" : "SettingsButton",
+									"Type" : "Button",
+									"height" : 50,
+									"onClick" : "cl_onTwoClick",
+									"width" : 50,
+									"x" : 0,
+									"y" : 0
+								},
+								{
+									"Childs" : 
+									[
+										{
+											"Caption" : "4x",
+											"Childs" : [],
+											"FontName" : "SM_ButtonTiny",
+											"Name" : "FourText",
+											"NeedKey" : false,
+											"NeedMouse" : false,
+											"Skin" : "TextBox",
+											"TextAlign" : "Center",
+											"Type" : "TextBox",
+											"height" : 50,
+											"width" : 50,
+											"x" : 0,
+											"y" : 0
+										}
+									],
+									"LayoutRule" : "Center",
+									"Name" : "FourButton",
+									"NeedKey" : false,
+									"NeedMouse" : true,
+									"OnClickEffect" : "Gui - Click",
+									"OnFocusEffect" : "Gui - Highlight",
+									"Skin" : "SettingsButton",
+									"Type" : "Button",
+									"height" : 50,
+									"onClick" : "cl_onFourClick",
+									"width" : 50,
+									"x" : 0,
+									"y" : 0
+								},
+								{
+									"Childs" : 
+									[
+										{
+											"Caption" : "8x",
+											"Childs" : [],
+											"FontName" : "SM_ButtonTiny",
+											"Name" : "EightText",
+											"NeedKey" : false,
+											"NeedMouse" : false,
+											"Skin" : "TextBox",
+											"TextAlign" : "Center",
+											"Type" : "TextBox",
+											"height" : 50,
+											"width" : 50,
+											"x" : 0,
+											"y" : 0
+										}
+									],
+									"LayoutRule" : "Center",
+									"Name" : "EightButton",
+									"NeedKey" : false,
+									"NeedMouse" : true,
+									"OnClickEffect" : "Gui - Click",
+									"OnFocusEffect" : "Gui - Highlight",
+									"Skin" : "SettingsButton",
+									"Type" : "Button",
+									"height" : 50,
+									"onClick" : "cl_onEightClick",
+									"width" : 50,
+									"x" : 0,
+									"y" : 0
+								}
+							],
+							"LayoutRule" : "Horizontal",
+							"NeedKey" : false,
+							"NeedMouse" : true,
+							"Skin" : "PanelEmpty",
+							"Type" : "Widget",
+							"height" : 50,
+							"width" : 270,
+							"x" : 0,
+							"y" : 0
+						}
+					],
+					"LayoutRule" : "Center",
+					"Name" : "Buttons",
+					"NeedKey" : false,
+					"NeedMouse" : true,
+					"Skin" : "PanelEmpty",
+					"Type" : "Widget",
+					"height" : 50,
+					"width" : 400,
+					"x" : 0,
+					"y" : 210
+				},
+				{
+					"Childs" : 
+					[
+						{
+							"Childs" : [],
+							"ImageTexture" : "$CONTENT_42c2de83-82e9-411b-a8aa-1d4d46aa907d/Gui/Circle/circle_scale.png",
+							"LayoutRule" : "Center",
+							"Name" : "Scale",
+							"NeedKey" : false,
+							"NeedMouse" : false,
+							"Skin" : "ImageBox",
+							"Type" : "ImageBox",
+							"height" : 130,
+							"width" : 130,
+							"x" : 0,
+							"y" : 0
+						},
+						{
+							"Childs" : 
+							[
+								{
+									"Caption" : "0.00%",
+									"Childs" : [],
+									"FontName" : "SM_Button",
+									"Name" : "PercentText",
+									"NeedKey" : false,
+									"NeedMouse" : false,
+									"Skin" : "TextBox",
+									"TextAlign" : "Center",
+									"Type" : "TextBox",
+									"height" : 80,
+									"width" : 80,
+									"x" : 0,
+									"y" : -8
+								},
+								{
+									"Caption" : "Chance",
+									"Childs" : [],
+									"FontName" : "SM_ButtonTiny",
+									"Name" : "ResultText",
+									"NeedKey" : false,
+									"NeedMouse" : false,
+									"Skin" : "TextBox",
+									"TextAlign" : "Center",
+									"TextColour" : "1.0 1.0 1.0 1.0",
+									"Type" : "TextBox",
+									"height" : 80,
+									"width" : 80,
+									"x" : 0,
+									"y" : 8
+								}
+							],
+							"ImageTexture" : "$CONTENT_42c2de83-82e9-411b-a8aa-1d4d46aa907d/Gui/Circle/circle.png",
+							"LayoutRule" : "Center",
+							"Name" : "Percent",
+							"NeedKey" : false,
+							"NeedMouse" : false,
+							"Skin" : "ImageBox",
+							"Type" : "ImageBox",
+							"height" : 110,
+							"width" : 110,
+							"x" : 0,
+							"y" : 0
+						},
+						{
+							"Childs" : [],
+							"ImageTexture" : "$CONTENT_42c2de83-82e9-411b-a8aa-1d4d46aa907d/Gui/Arrow/arrow_000.png",
+							"Name" : "Arrow",
+							"NeedKey" : false,
+							"NeedMouse" : false,
+							"Skin" : "ImageBox",
+							"Type" : "ImageBox",
+							"height" : 130,
+							"width" : 130,
+							"x" : 0,
+							"y" : 0
+						}
+					],
+					"LayoutRule" : "Center",
+					"Name" : "Circle",
+					"NeedKey" : false,
+					"NeedMouse" : false,
+					"Skin" : "PanelEmpty",
+					"Type" : "Widget",
+					"height" : 150,
+					"width" : 400,
+					"x" : 0,
+					"y" : 50
+				},
+				{
+					"Childs" : 
+					[
+						{
+							"Childs" : [],
+							"ContainerData" : 
+							{
+								"AddScrollSlider" : false,
+								"AutomaticTransactions" : true,
+								"ContainerHeight" : 74,
+								"ContainerId" : -1,
+								"ContainerOffsetX" : 0,
+								"ContainerOffsetY" : 0,
+								"ContainerWidth" : 74,
+								"ItemEndDragCallback" : "cl_onItemEndDrag",
+								"ItemSize" : 
+								{
+									"height" : 74,
+									"width" : 74
+								},
+								"SliderHeight" : 0,
+								"SliderOffsetX" : 0,
+								"SliderOffsetY" : 0,
+								"SliderWidth" : 0
+							},
+							"Name" : "Item",
+							"NeedKey" : false,
+							"NeedMouse" : true,
+							"Skin" : "PanelEmpty",
+							"Type" : "JsonContainerBox",
+							"height" : 74,
+							"width" : 74,
+							"x" : 0,
+							"y" : 0
+						}
+					],
+					"LayoutRule" : "Center",
+					"Name" : "ICenter",
+					"NeedKey" : false,
+					"NeedMouse" : true,
+					"Skin" : "PanelEmpty",
+					"Type" : "Widget",
+					"height" : 150,
+					"width" : 100,
+					"x" : 0,
+					"y" : 50
+				},
+				{
+					"Childs" : 
+					[
+						{
+							"Childs" : [],
+							"ContainerData" : 
+							{
+								"AddScrollSlider" : false,
+								"AutomaticTransactions" : true,
+								"ContainerHeight" : 74,
+								"ContainerId" : -1,
+								"ContainerOffsetX" : 0,
+								"ContainerOffsetY" : 0,
+								"ContainerWidth" : 74,
+								"ItemEndDragCallback" : "cl_onItemEndDrag",
+								"ItemSize" : 
+								{
+									"height" : 74,
+									"width" : 74
+								},
+								"SliderHeight" : 0,
+								"SliderOffsetX" : 0,
+								"SliderOffsetY" : 0,
+								"SliderWidth" : 0
+							},
+							"Name" : "GiveItem",
+							"NeedKey" : false,
+							"NeedMouse" : true,
+							"Skin" : "PanelEmpty",
+							"Type" : "JsonContainerBox",
+							"height" : 74,
+							"width" : 74,
+							"x" : 0,
+							"y" : 0
+						}
+					],
+					"LayoutRule" : "Center",
+					"Name" : "GICenter",
+					"NeedKey" : false,
+					"NeedMouse" : true,
+					"Skin" : "PanelEmpty",
+					"Type" : "Widget",
+					"height" : 150,
+					"width" : 100,
+					"x" : 300,
+					"y" : 50
+				}
+			],
+			"LayoutRule" : "Absolute",
+			"Name" : "Background",
+			"NeedKey" : false,
+			"NeedMouse" : true,
+			"Skin" : "BackgroundInteractableWide",
+			"Type" : "Widget",
+			"height" : 240,
+			"width" : 400,
+			"x" : 0,
+			"y" : 0
+		},
+		{
+			"Childs" : [],
+			"Name" : "Inventory",
+			"NeedKey" : false,
+			"NeedMouse" : true,
+			"Skin" : "WhiteSkin",
+			"SubLayoutPath" : "$SURVIVAL_DATA/Gui/JsonGuis/InventoryLower.gui",
+			"Type" : "SubLayout",
+			"height" : 788,
+			"width" : 294,
+			"x" : 0,
+			"y" : 250
+		}
+	],
+	"Hotbar" : 
+	{
+		"AutomaticTransactions" : true
+	},
+	"LayoutRule" : "Absolute",
+	"Name" : "MainPanel",
+	"NeedKey" : false,
+	"NeedMouse" : true,
+	"Skin" : "PanelEmpty",
+	"Type" : "Widget",
+	"Visible" : true,
+	"height" : 550,
+	"onClose" : "cl_onClose",
+	"width" : 788,
+	"x" : 0,
+	"y" : 0
+}

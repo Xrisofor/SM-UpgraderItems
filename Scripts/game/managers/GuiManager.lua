@@ -12,7 +12,8 @@ local Circle = {
 
 local Container = {
     Item = FindWidget( GUI_JSON, "Item" ),
-    GiveItem = FindWidget( GUI_JSON, "GiveItem" )
+    GiveItem = FindWidget( GUI_JSON, "GiveItem" ),
+    Inventory = FindWidget( GUI_JSON, "InventoryBox" ),
 }
 
 local Buttons = {
@@ -44,6 +45,9 @@ local function setContainerWidgetsEnabled( self, enabled )
     if Container.GiveItem then
         Container.GiveItem.Enabled = enabled
     end
+    if Container.Inventory then
+        Container.Inventory.Enabled = enabled
+    end
 
     if self.cl.jsonGui then
         self.cl.jsonGui:render( GUI_JSON )
@@ -51,17 +55,38 @@ local function setContainerWidgetsEnabled( self, enabled )
 end
 
 local function updateButtonStates( self )
+    local wantContainer = self.interactable:getContainer( WANT_CONTAINER_INDEX )
+    local wantItem = wantContainer and getFirstItem( wantContainer )
+
+    local maxStack = 1 
+    if wantItem and wantItem.uuid then
+        maxStack = 256
+        if sm.item and sm.item.getStackSize then
+            local success, result = pcall( sm.item.getStackSize, wantItem.uuid )
+            if success and result then
+                maxStack = result
+            end
+        end
+    end
+
     local mult = self.cl.multiplier or 1
+    if mult > maxStack then
+        self.cl.multiplier = 1
+        mult = 1
+    end
 
     if Buttons.Two then
+        Buttons.Two.Enabled = ( maxStack >= 2 )
         Buttons.Two.StateSelected = ( mult == 2 )
     end
 
     if Buttons.Four then
+        Buttons.Four.Enabled = ( maxStack >= 4 )
         Buttons.Four.StateSelected = ( mult == 4 )
     end
 
     if Buttons.Eight then
+        Buttons.Eight.Enabled = ( maxStack >= 8 )
         Buttons.Eight.StateSelected = ( mult == 8 )
     end
 
@@ -106,11 +131,11 @@ function GuiManager.cl_recalcRisk( self )
         return
     end
 
-    local giveValue = resolveValue( giveItem.uuid )
-    local wantValue = resolveValue( wantItem.uuid )
+    local giveValue = ValueManager.resolveValue( giveItem.uuid )
+    local wantValue = ValueManager.resolveValue( wantItem.uuid )
     local multiplier = self.cl.multiplier or 1
 
-    GuiManager.cl_updateRiskCircle( self, calcChance( giveValue * giveItem.quantity, wantValue * multiplier ) )
+    GuiManager.cl_updateRiskCircle( self, ValueManager.calcChance( giveValue * giveItem.quantity, wantValue * multiplier ) )
 end
 
 function GuiManager.cl_onUpdate( self, deltaTime )
@@ -137,7 +162,7 @@ function GuiManager.cl_onUpdate( self, deltaTime )
         self.cl.lastWantQuantity = wantQty
 
         if not self.cl.spinning then
-            GuiManager.cl_recalcRisk( self )
+            updateButtonStates( self ) 
         end
     end
 end
@@ -155,6 +180,11 @@ function GuiManager.cl_onInteract( self, char, state )
     local playerInventoryId = sm.localPlayer.getPlayer():getInventory().id
     local giveContainerId = giveContainer.id
     local wantContainerId = wantContainer.id
+
+    if Container.Inventory then
+        Container.Inventory.ContainerData.ContainerId = playerInventoryId
+        Container.Inventory.ContainerData.DropContainerIds = { giveContainerId, wantContainerId }
+    end
 
     if Container.Item then
         Container.Item.ContainerData.ContainerId = giveContainerId
@@ -234,7 +264,7 @@ end
 
 function GuiManager.cl_onItemEndDrag( self )
     if not self.cl.spinning then
-        GuiManager.cl_recalcRisk( self )
+        updateButtonStates( self )
     end
 end
 
