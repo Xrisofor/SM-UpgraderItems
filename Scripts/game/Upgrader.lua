@@ -15,10 +15,10 @@ WANT_CONTAINER_INDEX = 1
 
 local function ensureContainers( self )
     if not self.interactable:getContainer( GIVE_CONTAINER_INDEX ) then
-        self.interactable:addContainer( GIVE_CONTAINER_INDEX, 1, 999 )
+        self.interactable:addContainer( GIVE_CONTAINER_INDEX, 1, 100 )
     end
     if not self.interactable:getContainer( WANT_CONTAINER_INDEX ) then
-        self.interactable:addContainer( WANT_CONTAINER_INDEX, 1, 999 )
+        self.interactable:addContainer( WANT_CONTAINER_INDEX, 1, 1 )
     end
 end
 

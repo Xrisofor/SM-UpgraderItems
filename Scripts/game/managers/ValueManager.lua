@@ -117,6 +117,12 @@ function ValueManager.resolveValue( uuid )
         value = getPhysicalValue( uuid )
     end
 
+    if recipe then
+        print("(Upgrader) Recipe FOUND for", tostring(uuid), "-> value", value)
+    else
+        print("(Upgrader) NO recipe, fallback physical value for", tostring(uuid), "->", value)
+    end
+
     valueCache[key] = value
     return value
 end
@@ -127,7 +133,9 @@ function ValueManager.calcChance( giveValue, wantValue )
         return settings.minChance
     end
 
-    local chance = settings.chanceMultiplier * ( giveValue / wantValue ) * 100
+    local ratio = giveValue / wantValue
+    local chance = settings.maxChance * ( ratio / ( ratio + 1 ) ) * 2
+
     return math.max( settings.minChance, math.min( settings.maxChance, chance ) )
 end
 

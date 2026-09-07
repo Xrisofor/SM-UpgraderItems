@@ -3,13 +3,17 @@ dofile( "$CONTENT_40639a2c-bb9f-4d4f-b88c-41bfe264ffa8/Scripts/ModDatabase.lua" 
 RecipeManager = class()
 
 local BENCH_FILES = {
-    "craftbot",
-    "hideout",
-    "workbench",
-    "dispenser",
-    "refinery",
     "cookbot",
+    "dispenser",
     "dressbot",
+    "hideout",
+    "miningHubDispenser",
+    "miningHubTrader",
+    "multitool",
+    "portablecrafter",
+    "refinery",
+    "sawtable",
+    "workbench",
 }
 
 local recipes = nil
@@ -105,6 +109,29 @@ local function parseRecipeList( list, target )
     return count
 end
 
+local function parseCraftbotIndex( root, target )
+    local count = 0
+
+    local modData = tryOpenJson( root .. "/craftbot.json" )
+    if type( modData ) == "table" then
+        count = count + parseRecipeList( modData, target )
+    end
+
+    local indexData = tryOpenJson( root .. "/craftbot/craftbot.json" )
+    if type( indexData ) == "table" then
+        for _, path in pairs( indexData ) do
+            if type( path ) == "string" then
+                local data = tryOpenJson( path )
+                if type( data ) == "table" then
+                    count = count + parseRecipeList( data, target )
+                end
+            end
+        end
+    end
+
+    return count
+end
+
 function RecipeManager.load()
     recipes = {}
 
@@ -118,6 +145,12 @@ function RecipeManager.load()
                 totalRecipes = totalRecipes + parseRecipeList( data, recipes )
                 totalFiles = totalFiles + 1
             end
+        end
+
+        local craftbotCount = parseCraftbotIndex( root, recipes )
+        if craftbotCount > 0 then
+            totalRecipes = totalRecipes + craftbotCount
+            totalFiles = totalFiles + 1
         end
     end
 
