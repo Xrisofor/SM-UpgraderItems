@@ -372,10 +372,23 @@
 			"NeedMouse" : true,
 			"Skin" : "BackgroundInteractableWide",
 			"Type" : "Widget",
-			"height" : 280,
+			"height" : 240,
 			"width" : 400,
 			"x" : 0,
 			"y" : 0
+		},
+		{
+			"Childs" : [],
+			"Name" : "Inventory",
+			"NeedKey" : false,
+			"NeedMouse" : true,
+			"Skin" : "WhiteSkin",
+			"SubLayoutPath" : "$SURVIVAL_DATA/Gui/JsonGuis/InventoryLower.gui",
+			"Type" : "SubLayout",
+			"height" : 788,
+			"width" : 294,
+			"x" : 0,
+			"y" : 250
 		}
 	],
 	"Hotbar" : 
@@ -389,9 +402,9 @@
 	"Skin" : "PanelEmpty",
 	"Type" : "Widget",
 	"Visible" : true,
-	"height" : 280,
+	"height" : 550,
 	"onClose" : "cl_onClose",
-	"width" : 400,
+	"width" : 788,
 	"x" : 0,
 	"y" : 0
 }

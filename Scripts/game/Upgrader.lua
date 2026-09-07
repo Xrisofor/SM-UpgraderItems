@@ -2,6 +2,8 @@ dofile( "$SURVIVAL_DATA/Scripts/game/survival_items.lua" )
 dofile( "$SURVIVAL_DATA/Scripts/util.lua" )
 
 dofile( "$CONTENT_DATA/Scripts/game/Utilities.lua" )
+dofile( "$CONTENT_DATA/Scripts/game/managers/RecipeManager.lua" )
+dofile( "$CONTENT_DATA/Scripts/game/managers/ValueManager.lua" )
 dofile( "$CONTENT_DATA/Scripts/game/managers/AnimManager.lua" )
 dofile( "$CONTENT_DATA/Scripts/game/managers/GuiManager.lua" )
 dofile( "$CONTENT_DATA/Scripts/game/managers/SpinManager.lua" )
@@ -21,7 +23,7 @@ local function ensureContainers( self )
 end
 
 function Upgrader.server_onCreate( self )
-    reloadAllData()
+    ValueManager.preload()
     ensureContainers( self )
     SpinManager.sv_onCreate( self )
 end
@@ -32,8 +34,8 @@ function Upgrader.server_onRefresh( self )
 end
 
 function Upgrader.server_onReloadCommand( self, player )
-    reloadAllData()
-    print( "(Upgrader) Data reloaded: " .. tostring( player and player:getId() ) )
+    ValueManager.clearCache()
+    print( "(Upgrader) Value & recipe cache cleared: " .. tostring( player and player:getId() ) )
 end
 
 function Upgrader.server_onFixedUpdate( self )
@@ -57,7 +59,7 @@ function Upgrader.client_onCreate( self )
         lastWantQuantity = 0,
     }
 
-    loadItemValues()
+    ValueManager.preload()
     AnimManager.cl_onCreate( self )
 end
 
@@ -86,6 +88,18 @@ end
 
 function Upgrader.cl_onUpgradeClick( self, _ )
     GuiManager.cl_onUpgradeClick( self, _ )
+end
+
+function Upgrader.cl_onTwoClick( self, _ )
+    GuiManager.cl_onTwoClick( self, _ )
+end
+
+function Upgrader.cl_onFourClick( self, _ )
+    GuiManager.cl_onFourClick( self, _ )
+end
+
+function Upgrader.cl_onEightClick( self, _ )
+    GuiManager.cl_onEightClick( self, _ )
 end
 
 function Upgrader.cl_onClose( self )

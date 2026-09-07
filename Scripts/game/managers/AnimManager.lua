@@ -1,19 +1,5 @@
 AnimManager = class()
 
-local function isAnyOf( value, list )
-    for _, val in ipairs( list ) do
-        if value == val then
-            return true
-        end
-    end
-    return false
-end
-
-local function magicInterpolation( current, target, deltaTime, speed )
-    local steps = speed > 0 and ( deltaTime / speed ) or 1.0
-    return current + ( target - current ) * math.min( 1.0, steps )
-end
-
 local function createPortableEffects( self )
     self.cl.mainEffects = {
         unfold = sm.effect.createEffect( "Babycraftbot - Unpack", self.interactable ),
@@ -44,6 +30,7 @@ function AnimManager.cl_onCreate( self )
 
         currentMainEffect = nil,
         currentSecondaryEffect = nil,
+        finishTriggered = false,
     }
 
     createPortableEffects( self )
@@ -83,7 +70,9 @@ function AnimManager.cl_onUpdate( self, deltaTime )
 
     local isCraftAnim = isAnyOf( self.cl.animName, { "craft_start", "craft_loop01", "craft_loop02", "craft_loop03", "craft_finish" } )
 
-    if self.cl.spinning or ( isCraftAnim and self.cl.animName ~= "craft_finish" ) or ( self.cl.animName == "craft_finish" and not animDone ) then
+    local shouldBeCraftState = ( self.cl.spinning and not self.cl.finishTriggered ) or ( isCraftAnim and self.cl.animName ~= "craft_finish" ) or ( self.cl.animName == "craft_finish" and not animDone )
+
+    if shouldBeCraftState then
         self.cl.animState = "craft"
     elseif reactToInactive then
         self.cl.animState = "inactive"
@@ -145,34 +134,54 @@ function AnimManager.cl_onUpdate( self, deltaTime )
         end
 
     elseif self.cl.animState == "craft" then
-        if isAnyOf( self.cl.animName, { "idle", "idlespecial01", "idlespecial02", "unfold", "fold_in", "fold_idle", "fold_idlespecial01" } ) or self.cl.animName == nil then
-            self.cl.animName = "craft_start"
-            animDone = true
-        elseif self.cl.animName == "craft_start" then
-            if animDone then
-                self.cl.animName = "craft_loop01"
+        local isLoopAnim = isAnyOf( self.cl.animName, { "craft_loop01", "craft_loop02", "craft_loop03" } )
+        if isLoopAnim and self.cl.spinning and self.cl.spinDuration then
+            local craftFinishDuration = self.interactable:getAnimDuration( "craft_finish" ) or 1.525
+            local spinTimeRemaining = math.max( 0, self.cl.spinDuration - self.cl.spinTime )
+            if spinTimeRemaining <= craftFinishDuration then
+                self.cl.animName = "craft_finish"
+                self.cl.finishTriggered = true
             end
-        elseif self.cl.animName == "craft_loop01" or self.cl.animName == "craft_loop02" or self.cl.animName == "craft_loop03" then
-            if animDone then
-                if not self.cl.spinning then
-                    self.cl.animName = "craft_finish"
-                else
-                    local rand = math.random( 1, 4 )
+        end
+
+        if self.cl.animName ~= "craft_finish" or prevAnimName == "craft_finish" then
+            if isAnyOf( self.cl.animName, { "idle", "idlespecial01", "idlespecial02", "unfold", "fold_in", "fold_idle", "fold_idlespecial01" } ) or self.cl.animName == nil then
+                self.cl.animName = "craft_start"
+                animDone = true
+            elseif self.cl.animName == "craft_start" then
+                if animDone then
+                    local rand = math.random( 1, 20 )
                     if rand == 1 and not self.cl.spinSuccess then
                         self.cl.animName = "craft_loop02"
-                    elseif rand == 2 then
+                    elseif rand <= 5 then
                         self.cl.animName = "craft_loop03"
                     else
                         self.cl.animName = "craft_loop01"
                     end
                 end
-            end
-        elseif self.cl.animName == "craft_finish" then
-            if animDone then
-                if self.cl.spinning then
-                    self.cl.animName = "craft_start"
-                else
-                    self.cl.animName = "idle"
+            elseif self.cl.animName == "craft_loop01" or self.cl.animName == "craft_loop02" or self.cl.animName == "craft_loop03" then
+                if animDone then
+                    if not self.cl.spinning then
+                        self.cl.animName = "craft_finish"
+                        self.cl.finishTriggered = true
+                    else
+                        local rand = math.random( 1, 20 )
+                        if rand == 1 and not self.cl.spinSuccess then
+                            self.cl.animName = "craft_loop02"
+                        elseif rand <= 5 then
+                            self.cl.animName = "craft_loop03"
+                        else
+                            self.cl.animName = "craft_loop01"
+                        end
+                    end
+                end
+            elseif self.cl.animName == "craft_finish" then
+                if animDone then
+                    if self.cl.spinning and not self.cl.finishTriggered then
+                        self.cl.animName = "craft_start"
+                    else
+                        self.cl.animName = "idle"
+                    end
                 end
             end
         end

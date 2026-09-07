@@ -6,12 +6,20 @@ ReplaceSubLayouts( GUI_JSON )
 local Circle = {
     Percent = FindWidget( GUI_JSON, "Percent" ),
     Arrow = FindWidget( GUI_JSON, "Arrow" ),
-    Text = FindWidget( GUI_JSON, "PercentText" )
+    Text = FindWidget( GUI_JSON, "PercentText" ),
+    Result = FindWidget( GUI_JSON, "ResultText" )
 }
 
 local Container = {
     Item = FindWidget( GUI_JSON, "Item" ),
-    GiveItem = FindWidget( GUI_JSON, "GiveItem" )
+    GiveItem = FindWidget( GUI_JSON, "GiveItem" ),
+    Inventory = FindWidget( GUI_JSON, "InventoryBox" ),
+}
+
+local Buttons = {
+    Two = FindWidget( GUI_JSON, "TwoButton" ),
+    Four = FindWidget( GUI_JSON, "FourButton" ),
+    Eight = FindWidget( GUI_JSON, "EightButton" )
 }
 
 local function titleCase( str )
@@ -28,6 +36,61 @@ end
 local function spritePath( prefix, frame )
     local dir = titleCase( prefix )
     return getContentPath() .. "/Gui/" .. dir .. "/" .. prefix .. "_" .. string.format( "%03d", clampPercentFrame( frame ) ) .. ".png"
+end
+
+local function setContainerWidgetsEnabled( self, enabled )
+    if Container.Item then
+        Container.Item.Enabled = enabled
+    end
+    if Container.GiveItem then
+        Container.GiveItem.Enabled = enabled
+    end
+    if Container.Inventory then
+        Container.Inventory.Enabled = enabled
+    end
+
+    if self.cl.jsonGui then
+        self.cl.jsonGui:render( GUI_JSON )
+    end
+end
+
+local function updateButtonStates( self )
+    local wantContainer = self.interactable:getContainer( WANT_CONTAINER_INDEX )
+    local wantItem = wantContainer and getFirstItem( wantContainer )
+
+    local maxStack = 1 
+    if wantItem and wantItem.uuid then
+        maxStack = 256
+        if sm.item and sm.item.getStackSize then
+            local success, result = pcall( sm.item.getStackSize, wantItem.uuid )
+            if success and result then
+                maxStack = result
+            end
+        end
+    end
+
+    local mult = self.cl.multiplier or 1
+    if mult > maxStack then
+        self.cl.multiplier = 1
+        mult = 1
+    end
+
+    if Buttons.Two then
+        Buttons.Two.Enabled = ( maxStack >= 2 )
+        Buttons.Two.StateSelected = ( mult == 2 )
+    end
+
+    if Buttons.Four then
+        Buttons.Four.Enabled = ( maxStack >= 4 )
+        Buttons.Four.StateSelected = ( mult == 4 )
+    end
+
+    if Buttons.Eight then
+        Buttons.Eight.Enabled = ( maxStack >= 8 )
+        Buttons.Eight.StateSelected = ( mult == 8 )
+    end
+
+    GuiManager.cl_recalcRisk( self )
 end
 
 function GuiManager.cl_updateArrowFrame( self, frame )
@@ -68,10 +131,11 @@ function GuiManager.cl_recalcRisk( self )
         return
     end
 
-    local giveValue = resolveValue( giveItem.uuid )
-    local wantValue = resolveValue( wantItem.uuid )
+    local giveValue = ValueManager.resolveValue( giveItem.uuid )
+    local wantValue = ValueManager.resolveValue( wantItem.uuid )
+    local multiplier = self.cl.multiplier or 1
 
-    GuiManager.cl_updateRiskCircle( self, calcChance( giveValue * giveItem.quantity, wantValue ) )
+    GuiManager.cl_updateRiskCircle( self, ValueManager.calcChance( giveValue * giveItem.quantity, wantValue * multiplier ) )
 end
 
 function GuiManager.cl_onUpdate( self, deltaTime )
@@ -98,7 +162,7 @@ function GuiManager.cl_onUpdate( self, deltaTime )
         self.cl.lastWantQuantity = wantQty
 
         if not self.cl.spinning then
-            GuiManager.cl_recalcRisk( self )
+            updateButtonStates( self ) 
         end
     end
 end
@@ -117,6 +181,11 @@ function GuiManager.cl_onInteract( self, char, state )
     local giveContainerId = giveContainer.id
     local wantContainerId = wantContainer.id
 
+    if Container.Inventory then
+        Container.Inventory.ContainerData.ContainerId = playerInventoryId
+        Container.Inventory.ContainerData.DropContainerIds = { giveContainerId, wantContainerId }
+    end
+
     if Container.Item then
         Container.Item.ContainerData.ContainerId = giveContainerId
         Container.Item.ContainerData.DropContainerIds = { playerInventoryId }
@@ -131,11 +200,12 @@ function GuiManager.cl_onInteract( self, char, state )
         GUI_JSON.Hotbar.DropContainerIds = { giveContainerId, wantContainerId }
     end
 
-    if ResultText then
-        ResultText.Caption = ""
+    if self.cl.multiplier == nil then
+        self.cl.multiplier = 1
     end
 
-    GuiManager.cl_recalcRisk( self )
+    setContainerWidgetsEnabled( self, not self.cl.spinning )
+    updateButtonStates( self )
 end
 
 function GuiManager.cl_onClose( self )
@@ -162,29 +232,58 @@ function GuiManager.cl_onUpgradeClick( self, _ )
         return
     end
 
-    self.network:sendToServer( "server_onSpinRequest", {} )
+    self.network:sendToServer( "server_onSpinRequest", { multiplier = self.cl.multiplier or 1 } )
+end
+
+function GuiManager.cl_onTwoClick( self, _ )
+    if self.cl.spinning then
+        return
+    end
+
+    self.cl.multiplier = ( self.cl.multiplier == 2 ) and 1 or 2
+    updateButtonStates( self )
+end
+
+function GuiManager.cl_onFourClick( self, _ )
+    if self.cl.spinning then
+        return
+    end
+    
+    self.cl.multiplier = ( self.cl.multiplier == 4 ) and 1 or 4
+    updateButtonStates( self )
+end
+
+function GuiManager.cl_onEightClick( self, _ )
+    if self.cl.spinning then
+        return
+    end
+    
+    self.cl.multiplier = ( self.cl.multiplier == 8 ) and 1 or 8
+    updateButtonStates( self )
 end
 
 function GuiManager.cl_onItemEndDrag( self )
     if not self.cl.spinning then
-        GuiManager.cl_recalcRisk( self )
+        updateButtonStates( self )
     end
 end
 
 function GuiManager.cl_onSpinStarted( self )
-    if ResultText then
-        ResultText.Caption = ""
+    setContainerWidgetsEnabled( self, false )
+
+    if Circle.Result then
+        Circle.Result.Caption = "Chance"
+        Circle.Result.TextColour = "1 1 1 1"
     end
 end
 
 function GuiManager.cl_onSpinFinished( self, result )
+    setContainerWidgetsEnabled( self, true )
     GuiManager.cl_updateRiskCircle( self, result.chance )
 
-    if ResultText then
-        ResultText.Caption = result.success and "WIN!" or "Lost the item."
-        ResultText.TextColour = result.success and "0.2 1 0.2 1" or "1 0.2 0.2 1"
-    elseif RiskPercentage then
-        RiskPercentage.Caption = result.success and "WIN!" or "LOSE"
+    if Circle.Result then
+        Circle.Result.Caption = result.success and "WIN!" or "LOSE"
+        Circle.Result.TextColour = result.success and "0.2 1 0.2 1" or "1 0.2 0.2 1"
     end
 
     if self.cl.jsonGui then
@@ -193,12 +292,6 @@ function GuiManager.cl_onSpinFinished( self, result )
 end
 
 function GuiManager.cl_onSpinRejected( self, params )
-    if ResultText then
-        ResultText.Caption = "Rejected: " .. tostring( params.reason )
-    elseif RiskPercentage then
-        RiskPercentage.Caption = "ERR"
-    end
-
     if self.cl.jsonGui then
         self.cl.jsonGui:render( GUI_JSON )
     end
